@@ -1,0 +1,28 @@
+{
+  "name": "challenge-2.0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "jest": "^24.9.0",
+    "jest-cli": "^24.9.0",
+    "koa": "^2.11.0",
+    "mongoose": "^5.7.11",
+    "mongoose-validators": "^0.1.0",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0"
+  },
+  "devDependencies": {
+    "dotenv": "^8.1.0",
+    "husky": "^3.0.8",
+    "jshint": "^2.10.3",
+    "supertest": "^4.0.2"
+  }
+}
