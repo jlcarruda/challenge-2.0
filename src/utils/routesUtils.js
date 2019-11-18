@@ -1,7 +1,7 @@
 const { getComponentsOnGlob } = require('./globUtils')
 
 async function loadControllers() {
-  const controllersPath = await getComponentsOnGlob('**/*Controller.js')
+  const controllersPath = await getComponentsOnGlob('**/controller.js')
   const controllers = {}
 
   controllersPath.forEach(path => {

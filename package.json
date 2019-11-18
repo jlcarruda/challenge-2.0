@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "node app.js",
+    "start": "nodemon app.js",
+    "test": "jest --detectOpenHandles --forceExit --env node --verbose --testTimeout 10000 tests/**/*.spec.js"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +23,7 @@
     "mongoose": "^5.7.11",
     "mongoose-validators": "^0.1.0",
     "morgan": "^1.9.1",
+    "nodemon": "^1.19.4",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0"
   },
@@ -29,8 +31,6 @@
     "dotenv": "^8.1.0",
     "husky": "^3.0.8",
     "jshint": "^2.10.3",
-    "jest": "^24.9.0",
-    "jest-cli": "^24.9.0",
     "supertest": "^4.0.2"
   }
 }
