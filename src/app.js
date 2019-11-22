@@ -16,7 +16,11 @@ exports.init = async (databaseUrl = process.env.DATABASE_URI, port = 8080) => {
   server.use(httpLogger)
   server.use(injector)
 
-  await datasource.connect(databaseUrl)
+  try {
+    await datasource.connect(databaseUrl)
+  } catch(e) {
+    return Promise.reject(e)
+  }
 
   routes(server)
 
@@ -28,12 +32,10 @@ exports.init = async (databaseUrl = process.env.DATABASE_URI, port = 8080) => {
     handleRequests(res.locals.statusCode || 200, res)
   }, handleError)
 
-  return new Promise((resolve, reject) => {
-    server.listen(port, (err) => {
-      if (err) {
-        return reject(err)
-      }
-      resolve()
-    })
+  server.listen(port, (err) => {
+    if (err) {
+      return Promise.reject(err)
+    }
+    Promise.resolve()
   })
 }
