@@ -2,12 +2,12 @@ const mongoose = require('mongoose')
 
 mongoose.Promise = global.Promise
 
-function connect() {
+function connect(uri) {
   return new Promise((resolve, reject) => {
-    mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useCreateIndex: true })
+    mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
 
     mongoose.connection.on('connected', () => {
-      console.log(`Connected to Database: ${process.env.DATABASE_URL}`)
+      console.log(`Connected to Database: ${uri}`)
       resolve(mongoose)
     })
 

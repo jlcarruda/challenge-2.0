@@ -7,8 +7,9 @@ describe('User Controller', () => {
   let server;
   beforeAll(async () => {
     try {
-      server = await app.init(8081)
+      server = await app.init('mongodb://localhost:27017/test')
     } catch (error) {
+      console.error('ERRO DO CARAI BIXO', error)
     }
   })
 

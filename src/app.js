@@ -1,33 +1,35 @@
 const Express = require('express')
 const helmet = require('helmet')
-const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const routes = require('./routes')
 const injector = require('./helpers/injector')
 const { handleRequests } = require('./helpers/utils')
 const { handleError } = require('./helpers/errorHandler')
+const datasource = require('./datasource')
+const { httpLogger } = require('./logger')
 
-const app = Express()
+const server = Express()
 
-app.use(helmet())
-app.use(bodyParser.json())
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
-app.use(injector)
+exports.init = async (databaseUrl = process.env.DATABASE_URI, port = 8080) => {
+  server.use(helmet())
+  server.use(bodyParser.json())
+  server.use(httpLogger)
+  server.use(injector)
 
-routes(app)
+  await datasource.connect(databaseUrl)
 
-app.use((req, res) => {
-  if (!req.route) {
-    return res.sendStatus(404)
-  }
+  routes(server)
 
-  handleRequests(res.locals.statusCode || 200, res)
-}, handleError)
+  server.use((req, res) => {
+    if (!req.route) {
+      return res.sendStatus(404)
+    }
 
-exports.init = async (port = 8080) => {
+    handleRequests(res.locals.statusCode || 200, res)
+  }, handleError)
 
   return new Promise((resolve, reject) => {
-    app.listen(port, (err) => {
+    server.listen(port, (err) => {
       if (err) {
         return reject(err)
       }
