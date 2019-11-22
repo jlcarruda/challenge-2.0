@@ -6,7 +6,7 @@
   "scripts": {
     "serve": "node app.js",
     "start": "nodemon app.js",
-    "test": "jest --detectOpenHandles --forceExit --env node --verbose --testTimeout 10000 tests/**/*.spec.js"
+    "test": "jest --detectOpenHandles --forceExit --env node --verbose --testTimeout 20000 tests/**/*.spec.js"
   },
   "author": "",
   "license": "ISC",
