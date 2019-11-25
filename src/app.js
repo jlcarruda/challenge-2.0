@@ -8,34 +8,40 @@ const { handleError } = require('./helpers/errorHandler')
 const datasource = require('./datasource')
 const { httpLogger } = require('./logger')
 
-const server = Express()
+const app = Express()
 
-exports.init = async (databaseUrl = process.env.DATABASE_URI, port = 8080) => {
-  server.use(helmet())
-  server.use(bodyParser.json())
-  server.use(httpLogger)
-  server.use(injector)
+module.exports.init = async () => {
+  app.use(helmet())
+  app.use(bodyParser.json())
+  app.use(httpLogger)
+  app.use(injector)
 
-  try {
-    await datasource.connect(databaseUrl)
-  } catch(e) {
-    return Promise.reject(e)
-  }
+  routes(app)
 
-  routes(server)
-
-  server.use((req, res) => {
+  app.use((req, res) => {
     if (!req.route) {
       return res.sendStatus(404)
     }
 
     handleRequests(res.locals.statusCode || 200, res)
   }, handleError)
+}
 
-  server.listen(port, (err) => {
+module.exports.startDatasource = async () => {
+  try {
+    await datasource.connect(process.env.DATABASE_URI)
+  } catch(e) {
+    return Promise.reject(e)
+  }
+}
+
+module.exports.listen = async (port = 8080) => {
+  await app.listen(port, (err) => {
     if (err) {
       return Promise.reject(err)
     }
     Promise.resolve()
   })
 }
+
+module.exports.app = app
