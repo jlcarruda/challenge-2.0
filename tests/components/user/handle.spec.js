@@ -12,13 +12,17 @@ describe('User Controller', () => {
   })
 
   it('should respond successfully for requests', async () => {
-    const req = await request(app).get('/test')
-    expect(req.status).toEqual(200)
-    expect(req.text).toEqual('Hello World')
+    request(app).get('/test')
+      .expect(200, 'Hello World')
   })
 
   it('should return 404 status code if queries for a route that does not exists', async () => {
-    const req = await request(app).get('/test123')
-    expect(req.status).toEqual(404)
+    request(app).get('/test123')
+      .expect(404)
+  })
+
+  it('should fail if tries to request wrong contract request for POST sign_up', async () => {
+    request(app).post('/sign_up')
+      .expect(400)
   })
 })

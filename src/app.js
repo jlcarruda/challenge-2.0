@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const routes = require('./routes')
 const injector = require('./helpers/injector')
 const { handleRequests } = require('./helpers/utils')
-const { handleError } = require('./helpers/errorHandler')
+const { handleError, validateResult } = require('./helpers/errorHandler')
 const datasource = require('./datasource')
 const { httpLogger } = require('./logger')
 
@@ -18,6 +18,7 @@ module.exports.init = async () => {
 
   routes(app)
 
+  app.use(validateResult)
   app.use((req, res) => {
     if (!req.route) {
       return res.sendStatus(404)
