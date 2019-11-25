@@ -1,7 +1,6 @@
-const { loadControllers } = require('./utils/routesUtils')
+const userHandler = require('./components/user/handle')
 
 module.exports = async (app) => {
-  const controllers = await loadControllers()
 
-  app.get('/test', controllers.user.signIn)
+  app.get('/test', userHandler)
 }
