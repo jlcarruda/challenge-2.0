@@ -5,7 +5,7 @@ const routes = require('./routes')
 const injector = require('./helpers/injector')
 const { handleRequests } = require('./helpers/utils')
 const { handleError, validateResult } = require('./helpers/errorHandler')
-const datasource = require('./datasource')
+const { startDatasource } = require('./datasources')
 const { httpLogger } = require('./logger')
 
 const app = Express()
@@ -28,13 +28,6 @@ module.exports.init = async () => {
   }, handleError)
 }
 
-module.exports.startDatasource = async () => {
-  try {
-    await datasource.connect(process.env.DATABASE_URI)
-  } catch(e) {
-    return Promise.reject(e)
-  }
-}
 
 module.exports.listen = async (port = 8080) => {
   await app.listen(port, (err) => {
@@ -45,4 +38,5 @@ module.exports.listen = async (port = 8080) => {
   })
 }
 
-module.exports.app = app
+
+module.exports = { ...module.exports, app, startDatasource }

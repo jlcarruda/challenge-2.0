@@ -8,9 +8,10 @@ module.exports.signUpContract = [
 ]
 
 module.exports.signInContract = [
-
+  check('email').isEmail(),
+  check('password').isString()
 ]
 
 module.exports.searchContract = [
-
+  check('user_id').isNumeric()
 ]
